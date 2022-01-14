@@ -1,6 +1,6 @@
 # ARM Cortex-M Practice
 ###### tags: `ARM Cortex-M`
-根據線上課程所做的一些小練習
+根據線上課程所做的一些小練習，使用開發版為NUCLEO-F303ZE
 
 ## test
 - Just a simple test code
