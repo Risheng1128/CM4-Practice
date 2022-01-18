@@ -2,6 +2,15 @@
 ###### tags: `ARM Cortex-M`
 根據線上課程所做的一些小練習，使用開發版為NUCLEO-F303ZE
 
+## 目前做過的練習
+- Bit Band 操作
+
+- Inline assembly
+
+- Interrupt & Exception
+
+- Stack pointer
+
 ## How to use
 - 只要改TARGET的目標檔案路徑，接著make即可
   ```makefile=
