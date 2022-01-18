@@ -30,8 +30,8 @@ int main(void) {
     /* step1: configure the priority for the peripherals */
     NVIC_IPR7  &= ~(0xFF0000FF << 0); /* clear */
     /* IPR low 4 bits are unimplement */
-    /* (x << 4): Set TIM2 interrupt priority is x */
-    /* (x << 24): Set I2C1 interrupt priority is x */
+    /* (x << 4): Set TIM2 interrupt priority is x(0 ~ 15) */
+    /* (x << 28): Set I2C1 interrupt priority is x(0 ~ 15) */
     NVIC_IPR7  |= (0x8 << 4) | (0x8 << 28);
     /* step2: Set the interrupt pending bit int the NVIC_PR */
     NVIC_ISPR0 |= (1 << IRQ_NO_TIM2);
