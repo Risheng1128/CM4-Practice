@@ -5,11 +5,13 @@
 ## 目前做過的練習
 - Bit Band 操作
 
-- Inline assembly
-
-- Interrupt & Exception
+- Inline assembly 練習
 
 - Stack pointer
+
+- Interrupt 
+
+- System Exception
 
 ## How to use
 - 只要改TARGET的目標檔案路徑，接著make即可
