@@ -21,3 +21,6 @@
     # 編譯檔案資料夾
     BUILD_DIR = Debug
   ```
+  
+  ## To do
+  - Scheduler 練習
