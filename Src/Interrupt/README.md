@@ -14,6 +14,7 @@
   4. 因為I2C優先度和TIM2相等，因此不進I2C中斷函式，停在TIM2函式裡
      ![](https://i.imgur.com/9Sn1KXf.png)
   5. 結果
+     
      ![](https://i.imgur.com/DHSQP6r.png)
 
 - 情況2: 當兩個interrupt的優先度不同時
@@ -27,6 +28,7 @@
   4. 因為I2C優先度比TIM2高，因此跳進I2C中斷函式
      ![](https://i.imgur.com/zkuqGM5.png)
   5. 結果
+     
      ![](https://i.imgur.com/RXKGtBP.png)
 
 ## Analyzing stack contents during exception entry and exit
