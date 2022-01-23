@@ -15,6 +15,7 @@
     2. 利用函數指標指到0x20000501並且執行。發現會進Usage Fault
        ![](https://i.imgur.com/sPQB25d.png)
     3. Result
+       
        ![](https://i.imgur.com/MUilZma.png)
   
     - 偵測fault產生的原因
@@ -32,11 +33,14 @@
          ![](https://i.imgur.com/KN394ck.png)
       
     - Analyzing stack frame
+      
       ![](https://i.imgur.com/LSCFpWI.png)
       1. 結果
          程式結果
+         
          ![](https://i.imgur.com/UxblVyQ.png)
          查看memory view
+         
          ![](https://i.imgur.com/YLIfElE.png)
 
     - 查看LR及PC
@@ -106,6 +110,7 @@
       ![](https://i.imgur.com/1ZbPknF.png)
 
     - Result
+      
       ![](https://i.imgur.com/Fm8YK1E.png)
 
     - 查看MMSR
@@ -128,6 +133,7 @@
         
   - Example4: Executing SVC inside the SVC handler
     - 結果: 進入Hard Fault
+      
       ![](https://i.imgur.com/PYE1gVR.png) 
 
     - 查看LR及PC
@@ -154,6 +160,7 @@
       ![](https://i.imgur.com/BIvoM1q.png)
     
     - 結果: 進入Hard Fault
+      
       ![](https://i.imgur.com/4FpAyYK.png)
 
     - 查看LR及PC
@@ -204,6 +211,7 @@
      ![](https://i.imgur.com/GYsI7yY.png)
 
   5. Result
+     
      ![](https://i.imgur.com/Jp7Aw2v.png)
 
 - Exercise2: SVC_math.c
@@ -218,7 +226,9 @@
        | 39             | Division       |
        
   1. 進入SVC前，將變數a & b分別存到r1, r2暫存裡
+     
      ![](https://i.imgur.com/sfS4XWw.png)
 
   2. Result
+     
      ![](https://i.imgur.com/vybbghM.png)
