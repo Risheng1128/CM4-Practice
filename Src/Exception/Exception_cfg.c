@@ -37,7 +37,7 @@
 void Example1(void); // 執行未定義的指令
 void Example2(void); // 除以0
 void Example3(void); // 從 peripheral region 執行指令
-void Example4(void); // Executing SVC inside the SVC handler
+__attribute ((naked)) void Example4(void); // Executing SVC inside the SVC handler
 void Example5(void); // Executing SVC instruction inside the interrupt handler
 void HardFault_Info(uint32_t* MSP_ptr);
 void UsageFault_Info(uint32_t* MSP_ptr);
