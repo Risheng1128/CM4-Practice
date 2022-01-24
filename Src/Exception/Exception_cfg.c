@@ -37,7 +37,7 @@
 void Example1(void); // 執行未定義的指令
 void Example2(void); // 除以0
 void Example3(void); // 從 peripheral region 執行指令
-__attribute ((naked)) void Example4(void); // Executing SVC inside the SVC handler
+__attribute__ ((naked)) void Example4(void); // Executing SVC inside the SVC handler
 void Example5(void); // Executing SVC instruction inside the interrupt handler
 void HardFault_Info(uint32_t* MSP_ptr);
 void UsageFault_Info(uint32_t* MSP_ptr);
@@ -85,7 +85,7 @@ void Example3(void) { // 從 peripheral region 執行指令
     func_ptr(); // 執行函數
 }
 
-__attribute ((naked)) void Example4(void) { // Executing SVC inside the SVC handler
+__attribute__ ((naked)) void Example4(void) { // Executing SVC inside the SVC handler
     __asm volatile("SVC #5");
 }
 
@@ -95,13 +95,13 @@ void Example5(void) { // Executing SVC instruction inside the interrupt handler 
 }
 
 // 2. Implement the fault handler
-__attribute ((naked)) void HardFault_Handler(void) {
+__attribute__ ((naked)) void HardFault_Handler(void) {
     __asm volatile("MRS r0, MSP");  // 把MSP的值存在MRS裡
     // 根據AAPCS，ARM在函數傳遞引數時，順序為r0, r1, r2, r3，因此r0的值會傳到MSP_ptr
     __asm volatile("B HardFault_Info"); //Branch to SVC_Get_Number
 }
 
-__attribute ((naked)) void MemManage_Handler(void) {
+__attribute__ ((naked)) void MemManage_Handler(void) {
     __asm volatile("MRS r0, MSP");  // 把MSP的值存在MRS裡
     // 根據AAPCS，ARM在函數傳遞引數時，順序為r0, r1, r2, r3，因此r0的值會傳到MSP_ptr
     __asm volatile("B MemManageFault_Info"); //Branch to SVC_Get_Number
@@ -112,17 +112,17 @@ void BusFault_Handler(void) {
     while (1);
 }
 
-__attribute ((naked)) void SVC_Handler(void) {
+__attribute__ ((naked)) void SVC_Handler(void) {
     __asm volatile("SVC #5"); // 使用Example    5時要關掉，不然會有問題
 }
 
-__attribute ((naked)) void UsageFault_Handler(void) {
+__attribute__ ((naked)) void UsageFault_Handler(void) {
     __asm volatile("MRS r0, MSP");  // 把MSP的值存在MRS裡
     // 根據AAPCS，ARM在函數傳遞引數時，順序為r0, r1, r2, r3，因此r0的值會傳到MSP_ptr
     __asm volatile("B UsageFault_Info"); //Branch to SVC_Get_Number
 }
 
-__attribute ((naked)) void I2C1_EV_EXTI23_IRQHandler(void) {
+__attribute__ ((naked)) void I2C1_EV_EXTI23_IRQHandler(void) {
     __asm volatile("SVC #5");
 }
 

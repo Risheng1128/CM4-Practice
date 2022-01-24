@@ -70,7 +70,7 @@ int main(void) {
     return 0;
 }
 
-__attribute ((naked)) void SVC_Handler(void) {
+__attribute__ ((naked)) void SVC_Handler(void) {
     __asm volatile("MRS r0, MSP");  // 把MSP的值存在MRS裡
     // 根據AAPCS，ARM在函數傳遞引數時，順序為r0, r1, r2, r3，因此r0的值會傳到MSP_ptr
     __asm volatile("B Calculate"); //Branch to SVC_Get_Number

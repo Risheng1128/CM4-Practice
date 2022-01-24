@@ -1,15 +1,14 @@
 # ------------------------------------------------
 # Generic Makefile
-# 
 # Author: Ri-Sheng Chen
 # ------------------------------------------------
 
 # 目標編譯檔案
-TARGET = test/main
+TARGET = Task_Scheduler/main
 # 編譯檔案資料夾
 BUILD_DIR = Debug
 # C Source 使用到的.c檔
-C_SOURCES = $(wildcard ./Src/*.c) $(wildcard ./Src/$(TARGET).c)
+C_SOURCES = $(wildcard ./Src/*.c) $(wildcard ./Src/$(TARGET).c)                                                             
 # ASM sources
 ASM_SOURCES = $(wildcard ./Startup/*.s)
 # 使用ARM編譯器
@@ -35,7 +34,10 @@ C_DEFS = \
 -DSTM32F303xE
 # C includes 函式庫.h 路徑
 C_INCLUDES = -IInc
-
+ifeq ($(TARGET), Task_Scheduler/main) # 如果編譯檔案為scheduler，則多加相關檔案
+	C_SOURCES += Task_Scheduler/myscheduler.c
+	C_INCLUDES += -ITask_Scheduler/myscheduler.h
+endif
 # -Og Optimize for debug
 # -Wall 編譯後顯示所有警告
 # -fdata-sections 在編譯的時候把每個資料作為一個section。其中每個sections名與function或data名保持一致，能夠減小生成檔案的大小
