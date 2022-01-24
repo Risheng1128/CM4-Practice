@@ -16,12 +16,11 @@
 int main(void) {
     MYUSART_Init();
     Enable_processor_fault(); // Enable System Exception
-    SysTick_Timer_Init();     // Timer initial
-    /* scheduler init */
     Schedueler_MSP_Init(Handler_START_ADDR); // MSP initial
     Task_Stack_Init();    // Task Stack Space Initial
+    SysTick_Timer_Init(); // Timer initial
     sp_to_psp();          // 換成使用PSP
-    task1_handler();      // Call Task1
+    //task1_handler();      // Call Task1
 
     while(1);
     return 0;

@@ -72,7 +72,7 @@ void Task_Stack_Init(void) {
         *(--PSP_ptr) = DUMMY_XPSR;       // xPSR = 0x01000000
         *(--PSP_ptr) = task_handler[i];  // PC = task_handler的地址
         *(--PSP_ptr) = DUMMY_LR;         // xPSR = 0x01000000
-        for(int j = 0; i < 13; j++)      // R0 ~ R12
+        for(int j = 0; j < 13; j++)      // R0 ~ R12
             *(--PSP_ptr) = 0;
         *(task_PSP + i) = (uint32_t)PSP_ptr;       // 將PSP的值存起來
     }
