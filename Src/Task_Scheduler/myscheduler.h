@@ -52,7 +52,8 @@ void Task_Stack_Init(void);        // 實作dummy task stack pointer
 void Enable_processor_fault(void); // system exception致能
 __attribute__ ((naked)) void sp_to_psp(void); // 從MSP切換到PSP
 __attribute__ ((naked)) void Schedueler_MSP_Init(uint32_t sched_top_of_stack); // Schedueler Stack Pointer Initial;
-//uint32_t get_PSP_val(void); // 取得目前執行的task的PSP值
+void save_PSP_val(uint32_t current_psp); // 保存目前PSP的値
+void update_next_task(void);             // 切換到下個task
 void task1_handler(void);  // Task 1
 void task2_handler(void);  // Task 2
 void task3_handler(void);  // Task 3

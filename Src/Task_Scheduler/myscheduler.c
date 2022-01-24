@@ -12,10 +12,26 @@ uint32_t task_PSP[TASK_NUM] = {TASK1_START_ADDR, TASK2_START_ADDR, TASK3_START_A
 // 儲存每個task_handler的地址
 uint32_t task_handler[TASK_NUM];
 
-//uint8_t current_task = 0; // 0表示正在執行task1
+uint8_t current_task = 0; // 0表示正在執行task1
 
 void SysTick_Handler(void) {
-    printf("Hi\n");
+    /* Save the context of current task */
+    // 1. 得到當前Task的PSP値
+    __asm volatile("MRS r0, PSP");
+    // 2. 使用PSP値儲存Stack Frame(R4 ~ R11)
+    __asm volatile("STMDB r0!, {r4-r11}");
+    // 3. 保存PSP的値
+    __asm volatile("BL save_PSP_val");
+
+    /* Retrieve the context of next task */
+    // 1. Decide next task to run
+    __asm volatile("BL update_next_task");
+    // 2. get its past PSP value
+    __asm volatile("MSR PSP, %0" ::"r"(*(task_handler + current_task)):); // 將TASK1的PSP值複製到PSP裡
+    // 3. Using that PSP value retrieve Stack Frame (R4 ~ R11)
+    __asm volatile("LDMIA r0!, {r4-r11}");
+    // 4. Update PSP and exit
+    __asm volatile("MSR PSP,R0");
 }
 
 void HardFault_Handler(void) {
@@ -84,9 +100,14 @@ __attribute__ ((naked)) void Schedueler_MSP_Init(uint32_t sched_top_of_stack) {
     __asm volatile("Bx LR"); /* Return */
 }
 
-// uint32_t get_PSP_val(void) {
-//     return task_PSP[current_task];    
-// }
+void save_PSP_val(uint32_t current_psp) {
+    task_PSP[current_task] = current_psp;
+}
+
+void update_next_task(void) {
+    current_task++;
+    current_task = current_task % TASK_NUM;
+}
 
 void task1_handler(void) {
     while(1) {
