@@ -1,0 +1,110 @@
+ARM GAS  C:\Users\Benson\AppData\Local\Temp\ccw0xR8k.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.eabi_attribute 27, 1
+   3              		.eabi_attribute 28, 1
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.file	"main.c"
+  14              		.text
+  15              	.Ltext0:
+  16              		.cfi_sections	.debug_frame
+  17              		.section	.text.main,"ax",%progbits
+  18              		.align	1
+  19              		.global	main
+  20              		.arch armv7e-m
+  21              		.syntax unified
+  22              		.thumb
+  23              		.thumb_func
+  24              		.fpu fpv4-sp-d16
+  26              	main:
+  27              	.LFB3:
+  28              		.file 1 "./Src/Task_Scheduler/main.c"
+   1:./Src/Task_Scheduler/main.c **** /**
+   2:./Src/Task_Scheduler/main.c ****   ******************************************************************************
+   3:./Src/Task_Scheduler/main.c ****   * @file    main.c
+   4:./Src/Task_Scheduler/main.c ****   * @author  Ri-Sheng Chen
+   5:./Src/Task_Scheduler/main.c ****   * @brief   This file implements a simple tasks scheduler example.
+   6:./Src/Task_Scheduler/main.c ****   ******************************************************************************
+   7:./Src/Task_Scheduler/main.c ****   * @attention
+   8:./Src/Task_Scheduler/main.c ****   * 	 1. Implement a schedular which schedules multiple user tasks in a round-robin fashion by
+   9:./Src/Task_Scheduler/main.c ****   *         carring out the context switch operation
+  10:./Src/Task_Scheduler/main.c ****   *      2. Round robin scheduling method is, time slices are assigned to each task in equal portio
+  11:./Src/Task_Scheduler/main.c ****   *         and in circular order
+  12:./Src/Task_Scheduler/main.c ****   *      3. First will use systick handler to carry out the context switch operation between multip
+  13:./Src/Task_Scheduler/main.c ****   *      4. Later will we change the code using PendSV handler
+  14:./Src/Task_Scheduler/main.c ****   */
+  15:./Src/Task_Scheduler/main.c **** #include "myscheduler.h"
+  16:./Src/Task_Scheduler/main.c **** int main(void) {
+  29              		.loc 1 16 16
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 1, uses_anonymous_args = 0
+  33 0000 80B5     		push	{r7, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 7, -8
+  37              		.cfi_offset 14, -4
+  38 0002 00AF     		add	r7, sp, #0
+  39              	.LCFI1:
+  40              		.cfi_def_cfa_register 7
+  17:./Src/Task_Scheduler/main.c ****     MYUSART_Init();
+  41              		.loc 1 17 5
+ARM GAS  C:\Users\Benson\AppData\Local\Temp\ccw0xR8k.s 			page 2
+
+
+  42 0004 FFF7FEFF 		bl	MYUSART_Init
+  18:./Src/Task_Scheduler/main.c ****     Enable_processor_fault(); // Enable System Exception
+  43              		.loc 1 18 5
+  44 0008 FFF7FEFF 		bl	Enable_processor_fault
+  19:./Src/Task_Scheduler/main.c ****     Schedueler_MSP_Init(Handler_START_ADDR); // MSP initial
+  45              		.loc 1 19 5
+  46 000c 0448     		ldr	r0, .L3
+  47 000e FFF7FEFF 		bl	Schedueler_MSP_Init
+  20:./Src/Task_Scheduler/main.c ****     Task_Stack_Init();    // Task Stack Space Initial
+  48              		.loc 1 20 5
+  49 0012 FFF7FEFF 		bl	Task_Stack_Init
+  21:./Src/Task_Scheduler/main.c ****     SysTick_Timer_Init(); // Timer initial
+  50              		.loc 1 21 5
+  51 0016 FFF7FEFF 		bl	SysTick_Timer_Init
+  22:./Src/Task_Scheduler/main.c ****     sp_to_psp();          // 換成使用PSP
+  52              		.loc 1 22 5
+  53 001a FFF7FEFF 		bl	sp_to_psp
+  54              	.L2:
+  23:./Src/Task_Scheduler/main.c ****     //task1_handler();      // Call Task1
+  24:./Src/Task_Scheduler/main.c **** 
+  25:./Src/Task_Scheduler/main.c ****     while(1);
+  55              		.loc 1 25 10 discriminator 1
+  56 001e FEE7     		b	.L2
+  57              	.L4:
+  58              		.align	2
+  59              	.L3:
+  60 0020 00F00020 		.word	536932352
+  61              		.cfi_endproc
+  62              	.LFE3:
+  64              		.text
+  65              	.Letext0:
+ARM GAS  C:\Users\Benson\AppData\Local\Temp\ccw0xR8k.s 			page 3
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\Benson\AppData\Local\Temp\ccw0xR8k.s:18     .text.main:00000000 $t
+C:\Users\Benson\AppData\Local\Temp\ccw0xR8k.s:26     .text.main:00000000 main
+C:\Users\Benson\AppData\Local\Temp\ccw0xR8k.s:60     .text.main:00000020 $d
+
+UNDEFINED SYMBOLS
+MYUSART_Init
+Enable_processor_fault
+Schedueler_MSP_Init
+Task_Stack_Init
+SysTick_Timer_Init
+sp_to_psp
