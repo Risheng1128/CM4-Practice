@@ -17,7 +17,8 @@ void Example2();
 void Example3();
 void Example4();
 
-int main(void) {
+int main(void) 
+{
     Example1();
     //Example2();
     //Example3();
@@ -25,7 +26,8 @@ int main(void) {
 	return 0;
 }
 
-void Example1() {
+void Example1() 
+{
     *(uint32_t*)0x20001000 = 6;
     *(uint32_t*)0x20001004 = 4;
     __asm volatile("LDR R1,=#0x20001000");  /* 把地址0x20001000存到R1裡 */
@@ -37,17 +39,20 @@ void Example1() {
     __asm volatile("LDR R2,[R2]");          /* 把R2所存位址對應的數值存到R2裡 */
 }
 
-void Example2() {
+void Example2() 
+{
     uint32_t control_reg;
     __asm volatile("MRS %0, CONTROL" : "=r"(control_reg));
 }
 
-void Example3() {
+void Example3() 
+{
     uint32_t var1 = 10, var2;
     __asm volatile("MOV %0,%1": "=r"(var2): "r"(var1));
 }
 
-void Example4() {
+void Example4() 
+{
     uint32_t ptr1, *ptr2;
     ptr2 = (uint32_t*)0x20000008;
     __asm volatile("LDR %0,[%1]": "=r"(ptr1): "r"(ptr2)); /* p1 = *p2 */

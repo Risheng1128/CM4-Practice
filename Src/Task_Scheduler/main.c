@@ -13,7 +13,8 @@
   *      4. Later will we change the code using PendSV handler
   */
 #include "myscheduler.h"
-int main(void) {
+int main(void) 
+{
     MYUSART_Init();
     Enable_processor_fault(); // Enable System Exception
     Schedueler_MSP_Init(Handler_START_ADDR); // MSP initial

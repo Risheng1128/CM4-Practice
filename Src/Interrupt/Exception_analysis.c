@@ -16,7 +16,8 @@
 #define NVIC_ISER0           *(uint32_t*)0xE000E100U
 #define NVIC_STIR            *(uint32_t*)0xE000EF00U // Software Trigger Interrupt Register
 
-int main(void) {
+int main(void) 
+{
 
     // use PSP (default is MSP)
     // int control_reg = 0x2;
@@ -36,6 +37,7 @@ int main(void) {
     return 0;
 }
 
-void RTC_WKUP_IRQHandler(void) {
+void RTC_WKUP_IRQHandler(void) 
+{
     printf("Now: In handler mode\n");
 }

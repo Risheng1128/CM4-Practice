@@ -18,11 +18,13 @@
 #include <stdio.h>
 #include "myusart.h"
 
-void Calculate(uint32_t* MSP_ptr, uint32_t a, uint32_t b) {
+void Calculate(uint32_t* MSP_ptr, uint32_t a, uint32_t b) 
+{
     uint32_t* RetAddr_ptr = (uint32_t*)*(MSP_ptr + 6); // Return Address
     RetAddr_ptr = (uint32_t*)((uint32_t)RetAddr_ptr - 2); // SVC instruction地址為進入SVC instruction -2 的地址
     // 根據AAPCS，回傳資料時順序為R0,R1
-    switch (*RetAddr_ptr & 0xff) {
+    switch (*RetAddr_ptr & 0xff) 
+    {
         case 36:
             a += b;
             break;
@@ -39,7 +41,8 @@ void Calculate(uint32_t* MSP_ptr, uint32_t a, uint32_t b) {
     *MSP_ptr = a; // 計算結果存到r0(MSP_ptr[0])中
 }
 
-int main(void) {
+int main(void) 
+{
     MYUSART_Init();
     uint32_t a = 6, b = 4, res;
     // Addition
@@ -70,7 +73,8 @@ int main(void) {
     return 0;
 }
 
-__attribute__ ((naked)) void SVC_Handler(void) {
+__attribute__ ((naked)) void SVC_Handler(void) 
+{
     __asm volatile("MRS r0, MSP");  // 把MSP的值存在MRS裡
     // 根據AAPCS，ARM在函數傳遞引數時，順序為r0, r1, r2, r3，因此r0的值會傳到MSP_ptr
     __asm volatile("B Calculate"); //Branch to SVC_Get_Number

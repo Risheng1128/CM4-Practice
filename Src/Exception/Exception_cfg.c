@@ -44,7 +44,8 @@ void UsageFault_Info(uint32_t* MSP_ptr);
 void MemManageFault_Info(uint32_t* MSP_ptr);
 void Stack_Info(uint32_t* MSP_ptr);
 
-int main(void) {
+int main(void) 
+{
     MYUSART_Init();
 
     // 1. Enable all configurable exceptions (usage, mem manage, bus fault)
@@ -65,7 +66,8 @@ int main(void) {
     return 0;
 }
 
-void Example1(void) { // 執行未定義的指令
+void Example1(void) // 執行未定義的指令
+{ 
     uint32_t* SRAM_ptr = (uint32_t*)0x20000501; // 指到SRAM隨便一個地方 (bit0要1，要對應T bit)
     //uint32_t* SRAM_ptr = (uint32_t*)0x20000500; // T bit為0
     *SRAM_ptr = 0xFFFFFFFF; // 無效指令
@@ -73,81 +75,94 @@ void Example1(void) { // 執行未定義的指令
     func_ptr(); // 執行函數
 }
 
-void Example2(void) { // 除以0
+void Example2(void) // 除以0
+{ 
     // enable divide by 0 trap
     CCR |= (1 << DIV_0_TRP);
     // divdie 0
     int a = 1 / 0;
 }
 
-void Example3(void) { // 從 peripheral region 執行指令
+void Example3(void) // 從 peripheral region 執行指令
+{
     void (*func_ptr)(void) = (void*)0x40000000; // 0x40000000位於peripheral region
     func_ptr(); // 執行函數
 }
 
-__attribute__ ((naked)) void Example4(void) { // Executing SVC inside the SVC handler
+__attribute__ ((naked)) void Example4(void) // Executing SVC inside the SVC handler
+{ 
     __asm volatile("SVC #5");
 }
 
-void Example5(void) { // Executing SVC instruction inside the interrupt handler whose priority whose priority is same or lesser than SVC handler
-    NVIC_ISER0 |= (1 << I2C1_EV_IRQ_NO);
+void Example5(void) // Executing SVC instruction inside the interrupt handler whose priority whose priority is same or lesser than SVC handler
+{     NVIC_ISER0 |= (1 << I2C1_EV_IRQ_NO);
     NVIC_ISPR0 |= (1 << I2C1_EV_IRQ_NO);
 }
 
 // 2. Implement the fault handler
-__attribute__ ((naked)) void HardFault_Handler(void) {
+__attribute__ ((naked)) void HardFault_Handler(void) 
+{
     __asm volatile("MRS r0, MSP");  // 把MSP的值存在MRS裡
     // 根據AAPCS，ARM在函數傳遞引數時，順序為r0, r1, r2, r3，因此r0的值會傳到MSP_ptr
     __asm volatile("B HardFault_Info"); //Branch to SVC_Get_Number
 }
 
-__attribute__ ((naked)) void MemManage_Handler(void) {
+__attribute__ ((naked)) void MemManage_Handler(void) 
+{
     __asm volatile("MRS r0, MSP");  // 把MSP的值存在MRS裡
     // 根據AAPCS，ARM在函數傳遞引數時，順序為r0, r1, r2, r3，因此r0的值會傳到MSP_ptr
     __asm volatile("B MemManageFault_Info"); //Branch to SVC_Get_Number
 }
 
-void BusFault_Handler(void) {
+void BusFault_Handler(void) 
+{
     printf("In Bus fault\n");
     while (1);
 }
 
-__attribute__ ((naked)) void SVC_Handler(void) {
+__attribute__ ((naked)) void SVC_Handler(void) 
+{
     __asm volatile("SVC #5"); // 使用Example    5時要關掉，不然會有問題
 }
 
-__attribute__ ((naked)) void UsageFault_Handler(void) {
+__attribute__ ((naked)) void UsageFault_Handler(void) 
+{
     __asm volatile("MRS r0, MSP");  // 把MSP的值存在MRS裡
     // 根據AAPCS，ARM在函數傳遞引數時，順序為r0, r1, r2, r3，因此r0的值會傳到MSP_ptr
     __asm volatile("B UsageFault_Info"); //Branch to SVC_Get_Number
 }
 
-__attribute__ ((naked)) void I2C1_EV_EXTI23_IRQHandler(void) {
+__attribute__ ((naked)) void I2C1_EV_EXTI23_IRQHandler(void) 
+{
     __asm volatile("SVC #5");
 }
 
-void HardFault_Info(uint32_t* MSP_ptr) {
+void HardFault_Info(uint32_t* MSP_ptr) 
+{
     printf("In Hard fault\n");
     printf("HFSR = %lx\n", HFSR);
     Stack_Info(MSP_ptr);
     while(1);
 }
 
-void UsageFault_Info(uint32_t* MSP_ptr) {
+void UsageFault_Info(uint32_t* MSP_ptr) 
+{
     printf("In Usage fault\n");
     printf("UFSR = 0x%lx\n", UFSR);           // 查看產生Fault原因
     Stack_Info(MSP_ptr);
     while (1);
 }
 
-void MemManageFault_Info(uint32_t* MSP_ptr) {
+void MemManageFault_Info(uint32_t* MSP_ptr) 
+{
     printf("In Mem manage fault\n");
     printf("MMSR = 0x%lx\n", (MMSR & 0xff));           // 查看產生Fault原因
     Stack_Info(MSP_ptr);
     while (1);
 }
 
-void Stack_Info(uint32_t* MSP_ptr) {
+void Stack_Info(uint32_t* MSP_ptr) 
+{
     printf("r0 = 0x%lx\n", *MSP_ptr);         // r0
     printf("r1 = 0x%lx\n", *(MSP_ptr + 1));   // r1
     printf("r2 = 0x%lx\n", *(MSP_ptr + 2));   // r2 

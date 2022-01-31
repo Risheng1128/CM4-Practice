@@ -24,7 +24,8 @@
 #define NVIC_ISPR0        *(uint32_t*)0xE000E200U   /* Interrupt Set-Pending Registers */
 #define NVIC_IPR7         *(uint32_t*)0xE000E41CU   /* Interrupt Priority Registers */
 
-int main(void) {
+int main(void) 
+{
     /* USART initialize */
     MYUSART_Init();
     /* step1: configure the priority for the peripherals */
@@ -42,13 +43,15 @@ int main(void) {
 }
 
 /* From startup file, the interrupt function of TIM2 global interrupt */
-void TIM2_IRQHandler(void) {
+void TIM2_IRQHandler(void) 
+{
     printf("TIM2 Interrupt Handler\n");
     NVIC_ISPR0 |= (1 << IRQ_NO_I2C1_EV);
     while(1);
 }
 
 /* From startup file, the interrupt function of I2C1 event interrupt */
-void I2C1_EV_EXTI23_IRQHandler(void) {
+void I2C1_EV_EXTI23_IRQHandler(void) 
+{
     printf("IC21 Interrupt Handler\n");
 }

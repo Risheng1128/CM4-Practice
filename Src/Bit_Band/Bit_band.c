@@ -13,7 +13,8 @@
 #define BIT_BAND_BASE 0x20000000U
 #define BIT_POSITION 7
 
-int main(void){
+int main(void)
+{
 	  uint8_t *ptr = (uint8_t*)0x20000200;
 	  *ptr = 0xff;        /* reset value */
     *ptr &= ~(1 << 7);  /* bitwise method */
