@@ -1,4 +1,4 @@
-# ARM Cortex-M Practice
+# CM4 Practice
 ###### tags: `ARM Cortex-M`
 根據[線上課程](https://www.udemy.com/course/embedded-system-programming-on-arm-cortex-m3m4/)所做的一些小練習，使用開發版為NUCLEO-F303ZE
 
