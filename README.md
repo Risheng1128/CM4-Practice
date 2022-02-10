@@ -4,13 +4,9 @@
 
 ## 目前做過的練習
 - Bit Band 操作
-
 - Inline assembly 練習
-
 - Stack pointer
-
 - Interrupt 
-
 - System Exception
 
 ## How to use
@@ -22,5 +18,6 @@
     BUILD_DIR = Debug
   ```
   
-  ## To do
-  - Scheduler 練習
+## 實作中
+- Scheduler 練習
+- Clock Config 練習

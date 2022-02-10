@@ -3,7 +3,7 @@
 # Author: Ri-Sheng Chen
 # ------------------------------------------------
 
-TARGET = Task_Scheduler/main
+TARGET = Clock/Exercise1
 BUILD_DIR = Debug
 C_SOURCES = $(wildcard ./Src/*.c) $(wildcard ./Src/$(TARGET).c)
 ASM_SOURCES = $(wildcard ./Startup/*.s)
@@ -39,7 +39,7 @@ vpath %.c $(dir $(C_SOURCES))
 OBJECTS += $(patsubst %.s,$(BUILD_DIR)/%.o,$(notdir $(ASM_SOURCES)))  # ASM .o檔
 vpath %.s $(dir $(ASM_SOURCES))
 
-all: clean $(BUILD_DIR)/$(notdir $(TARGET)).elf
+all: $(BUILD_DIR)/$(notdir $(TARGET)).elf
 $(BUILD_DIR)/%.o: %.c
 	$(CC) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.c=.lst)) $< -o $@
 $(BUILD_DIR)/%.o: %.s
