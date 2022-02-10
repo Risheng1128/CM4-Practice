@@ -23,4 +23,4 @@
   ```
   
   ## To do
-  - Scheduler 練習
+  - Scheduler 練習 (目前做到一半)
