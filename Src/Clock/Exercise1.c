@@ -12,20 +12,33 @@
   */
 
 #include <stdio.h>
-#include <stdint.h>
-#define RCC_BASE_ADDR        (volatile uint32_t*)(0x40021000U)              // RCC peripheral base address
-#define RCC_CR              *(volatile uint32_t*)((uint32_t)RCC_BASE_ADDR + 0x00U)  // Clock control register
-#define RCC_CFGR            *(volatile uint32_t*)((uint32_t)RCC_BASE_ADDR + 0x04U)  // Clock configuration register
+#include "myusart.h"
+
+#define APB1_CLK            2000000U
+#define RCC_CR              *(volatile uint32_t*)(0x40021000U) // Clock control register
+#define RCC_CFGR            *(volatile uint32_t*)(0x40021004U) // Clock configuration register
+#define FLASH_ACR           *(volatile uint32_t*)(0x40022000U) // Flash access control register
 
 int main(void)
 {   
-    RCC_CR |= (1 << 18);   // HSE crystal oscillator bypass
-    RCC_CR |= (1 << 16);   // HSE clock enable
-    while(!((RCC_CR & 0x20000) >> 17)); // 等待HSE準備好
-    
-    RCC_CFGR |= (6 << 24); // Microcontroller clock output (HSE clock selected)
-    RCC_CFGR |= (1 << 0);  // System clock switch (HSE selected as system clock)
-    
+    /* step1: Enable required clock and wait until the clock is ready */
+    RCC_CR |= (1 << 18);    // HSE crystal oscillator bypass
+    RCC_CR |= (1 << 16);    // HSE clock enable
+    while(!((RCC_CR & 0x20000) >> 17)); // 等待HSE準備完成
+    /* step2: Initialize CPU, AHB, APB busses clock prescalers to application requirements */
+    RCC_CFGR |= (4 << 11);  // APB2 high-speed prescaler (HCLK divided by 2)
+    RCC_CFGR |= (4 <<  8);  // APB1 high-speed prescaler (HCLK divided by 2)
+    RCC_CFGR |= (8 <<  4);  // HLCK prescaler (SYSCLK divided by 2)
+    /* step3: Configure the flash latency */
+    FLASH_ACR |= (0 << 0);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
+    /* step4: Select newly enabled clock as SYSCLK */
+    RCC_CFGR |= (1 <<  0);  // System clock switch (HSE selected as system clock)
+    /* step5: Disable other clock */
+    RCC_CR &= ~(1 << 0);    //  HSI clock disable
+    while((RCC_CR & 0x2) >> 1); // 等待HSI關閉完成
+    MYUSART_Init();
+    USART3_BRR = APB1_CLK / BAUDRATE_38400; // 重新設定baudrate，覆寫預設結果
+    printf("Hello world\n");
     while(1);
     return 0;
 }

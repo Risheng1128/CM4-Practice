@@ -11,7 +11,7 @@
 
 #include <stdint.h>
 
-#define DEFAULT_F_CLK       8000000U
+#define DEFAULT_APB1_CLK    8000000U
 #define BAUDRATE_38400      38400U
 
 #define RCC_AHBENR          *(volatile uint32_t*)0x40021014U  /* AHB peripheral clock enable register */
