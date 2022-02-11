@@ -48,7 +48,7 @@ void MYUSART_Init()
     /* USART mode set */
     USART3_CR1 |= (1 << 2) | (1 << 3);  /* Enable Tx/Rx */
     /* Baudrate Set */
-    USART3_BRR = DEFAULT_F_CLK / BAUDRATE_38400;
+    USART3_BRR = DEFAULT_APB1_CLK / BAUDRATE_38400;
 }
 
 void MYUSART_SendData(uint8_t* pTxBuffer, uint8_t len)
