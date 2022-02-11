@@ -16,11 +16,9 @@
 #define RCC_BASE_ADDR        (volatile uint32_t*)(0x40021000U)              // RCC peripheral base address
 #define RCC_CR              *(volatile uint32_t*)((uint32_t)RCC_BASE_ADDR + 0x00U)  // Clock control register
 #define RCC_CFGR            *(volatile uint32_t*)((uint32_t)RCC_BASE_ADDR + 0x04U)  // Clock configuration register
-//#define RCC_AHBENR          *(volatile uint32_t*)0x40021014U  // AHB peripheral clock enable register
 
 int main(void)
 {   
-    //RCC_AHBENR |= (1 << 0);
     RCC_CR |= (1 << 18);   // HSE crystal oscillator bypass
     RCC_CR |= (1 << 16);   // HSE clock enable
     while(!((RCC_CR & 0x20000) >> 17)); // 等待HSE準備好
