@@ -8,6 +8,7 @@
 - Stack pointer
 - Interrupt 
 - System Exception
+- Clock Configure
 
 ## How to use
 - 只要改TARGET的目標檔案路徑，接著make即可
@@ -20,4 +21,3 @@
   
 ## 實作中
 - Scheduler 練習
-- Clock Config 練習

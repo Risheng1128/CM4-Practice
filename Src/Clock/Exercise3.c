@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file    Exercise2.c
+  * @file    Exercise3.c
   * @author  Ri-Sheng Chen
-  * @brief   This file is a example of PLL Configuration via HSI
+  * @brief   This file is a example of PLL Configuration via HSE
   ******************************************************************************
   * @attention
   *     - Write an application to generate below HCLK freqencies using PLL (APB 和 AHB 的除頻都設為1)
@@ -15,7 +15,7 @@
   *       3. 60MHz
   *          - APB1 : 30MHz
   *          - APB2 : 60MHz
-  *     - Use HSI as PLL's input source and repeat the exercise using HSI as input source
+  *     - Use HSE as PLL's input source and repeat the exercise using HSE as input source
   *     - 使用USART3傳輸資料到電腦做測試 (baudrate set up 38400)
   */
 
@@ -35,8 +35,8 @@ void HCLK60M(void);
 
 int main(void)
 {   
-    //HCLK20M();
-    //HCLK40M();
+    // HCLK20M();
+    // HCLK40M();
     HCLK60M();
     while(1)
     {
@@ -49,9 +49,13 @@ void HCLK20M(void)
 {
     /* step1: Enable required clock and wait until the clock is ready. 
         If application needs PLL, then configure the PLL and enable it */
-    RCC_CFGR &= ~(1 << 15) | ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
-    RCC_CFGR |=  (1 << 18) |  (1 << 19); // PLL multiplication factor (PLL input clock x 5)
-    RCC_CR   |= (1 << 24); // PLL enable
+    RCC_CR |= (1 << 18);   // HSE crystal oscillator bypass
+    RCC_CR |= (1 << 16);   // HSE clock enable
+    while(!((RCC_CR & 0x20000) >> 17)); // 等待HSE準備完成
+    RCC_CFGR |= (1 << 16); // PLL entry clock source (HSE used as PREDIV1 entry)
+    RCC_CFGR |= (1 << 17); // HSE divider for PLL input clock (HSE input to PLL divided by 2)
+    RCC_CFGR |= (1 << 18) | (1 << 19); // PLL multiplication factor (PLL input clock x 5)
+    RCC_CR   |= (1 << 24);   // PLL enable
     while(!((RCC_CR & 0x02000000) >> 25)); // 等待PLL開啟完成
     
     /* step2: Initialize CPU, AHB, APB busses clock prescalers to application requirements */
@@ -64,6 +68,10 @@ void HCLK20M(void)
     RCC_CFGR  |= (1 << 1);  // System clock switch (PLL selected as system clock)
     while(((RCC_CFGR & 0xc) >> 2) != 2); // 等待System clock switch完成
     
+    /* step5: Disable other clock */
+    RCC_CR &= ~(1 << 0);    //  HSI clock disable
+    while((RCC_CR & 0x2) >> 1); // 等待HSI關閉完成
+    
     MYUSART_Init();
     USART3_BRR = APB1_CLK_20M / BAUDRATE_38400; // 重新設定baudrate，覆寫預設結果
 }
@@ -72,7 +80,11 @@ void HCLK40M(void)
 {
     /* step1: Enable required clock and wait until the clock is ready. 
         If application needs PLL, then configure the PLL and enable it */
-    RCC_CFGR &= ~(1 << 15) | ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
+    RCC_CR |= (1 << 18);   // HSE crystal oscillator bypass
+    RCC_CR |= (1 << 16);   // HSE clock enable
+    while(!((RCC_CR & 0x20000) >> 17)); // 等待HSE準備完成
+    RCC_CFGR |= (1 << 16); // PLL entry clock source (HSE used as PREDIV1 entry)
+    RCC_CFGR |= (1 << 17); // HSE divider for PLL input clock (HSE input to PLL divided by 2)
     RCC_CFGR |= (1 << 21); // PLL multiplication factor (PLL input clock x 10)
     RCC_CR   |= (1 << 24); // PLL enable
     while(!((RCC_CR & 0x02000000) >> 25)); // 等待PLL開啟完成
@@ -87,6 +99,10 @@ void HCLK40M(void)
     /* step4: Select newly enabled clock as SYSCLK */
     RCC_CFGR  |= (1 << 1);  // System clock switch (PLL selected as system clock)
     while(((RCC_CFGR & 0x0c) >> 2) != 2); // 等待System clock switch完成
+
+    /* step5: Disable other clock */
+    RCC_CR &= ~(1 << 0);    //  HSI clock disable
+    while((RCC_CR & 0x2) >> 1); // 等待HSI關閉完成
     
     MYUSART_Init();
     USART3_BRR = APB1_CLK_20M / BAUDRATE_38400; // 重新設定baudrate，覆寫預設結果
@@ -96,7 +112,11 @@ void HCLK60M(void)
 {
     /* step1: Enable required clock and wait until the clock is ready. 
         If application needs PLL, then configure the PLL and enable it */
-    RCC_CFGR &= ~(1 << 15) | ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
+    RCC_CR |= (1 << 18);   // HSE crystal oscillator bypass
+    RCC_CR |= (1 << 16);   // HSE clock enable
+    while(!((RCC_CR & 0x20000) >> 17)); // 等待HSE準備完成
+    RCC_CFGR |= (1 << 16); // PLL entry clock source (HSE used as PREDIV1 entry)
+    RCC_CFGR |= (1 << 17); // HSE divider for PLL input clock (HSE input to PLL divided by 2)    RCC_CFGR |= (0xd << 18); // PLL multiplication factor (PLL input clock x 15)
     RCC_CFGR |=  (1 << 18) |  (1 << 20) |  (1 << 21); // PLL multiplication factor (PLL input clock x 15)
     RCC_CR   |= (1 << 24); // PLL enable
     while(!((RCC_CR & 0x02000000) >> 25)); // 等待PLL開啟完成
@@ -111,6 +131,10 @@ void HCLK60M(void)
     /* step4: Select newly enabled clock as SYSCLK */
     RCC_CFGR  |= (1 << 1);  // System clock switch (PLL selected as system clock)
     while(((RCC_CFGR & 0x0c) >> 2) != 2); // 等待System clock switch完成
+
+    /* step5: Disable other clock */
+    RCC_CR &= ~(1 << 0);    //  HSI clock disable
+    while((RCC_CR & 0x2) >> 1); // 等待HSI關閉完成
     
     MYUSART_Init();
     USART3_BRR = APB1_CLK_30M / BAUDRATE_38400; // 重新設定baudrate，覆寫預設結果

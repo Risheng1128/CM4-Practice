@@ -3,7 +3,7 @@
 # Author: Ri-Sheng Chen
 # ------------------------------------------------
 
-TARGET = Clock/Exercise2
+TARGET = Clock/Exercise3
 BUILD_DIR = Debug
 C_SOURCES = $(wildcard ./Src/*.c) $(wildcard ./Src/$(TARGET).c)
 ASM_SOURCES = $(wildcard ./Startup/*.s)
