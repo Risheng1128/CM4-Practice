@@ -9,6 +9,7 @@
   *     2. AHB clock as 4MHz (HCLK)
   *     3. APB1 clock as 2MHz (PCLK1)
   *     4. APB2 clock as 2MHz (PCLK2)
+  *     5. 使用USART3傳輸資料到電腦做測試 (baudrate set up 38400)
   */
 
 #include <stdio.h>
@@ -20,7 +21,7 @@
 #define FLASH_ACR           *(volatile uint32_t*)(0x40022000U) // Flash access control register
 
 int main(void)
-{   
+{
     /* step1: Enable required clock and wait until the clock is ready */
     RCC_CR |= (1 << 18);    // HSE crystal oscillator bypass
     RCC_CR |= (1 << 16);    // HSE clock enable
