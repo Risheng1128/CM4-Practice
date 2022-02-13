@@ -76,3 +76,17 @@
 
 - 結果(兩者結果一樣)
   ![](https://i.imgur.com/eNSDTMZ.png)
+  
+## Exercise5
+- 目標: HSI measurment
+  - Write a program to output HSI clock on microcontroller pin and measure it using oscilloscope or logic analyzer
+  
+- 參考STM32F303ZE的alternate function mapping
+  - MCO可以從PA8輸出(使用AF0)
+  ![](https://i.imgur.com/iwYAXMX.png)
+
+- 結果 (將MCO除以8後輸出，即1MHz)
+  ![](https://i.imgur.com/BjwlALt.png)
+
+
+
