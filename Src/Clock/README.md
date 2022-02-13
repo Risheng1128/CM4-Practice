@@ -80,6 +80,7 @@
 ## Exercise5
 - 目標: HSI measurment
   - Write a program to output HSI clock on microcontroller pin and measure it using oscilloscope or logic analyzer
+  - 將HSI預設降頻作為練習(1MHz)，表示MCO要除以8
   
 - 參考STM32F303ZE的alternate function mapping
   - MCO可以從PA8輸出(使用AF0)
