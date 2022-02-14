@@ -5,13 +5,14 @@
   * @brief   This file is a example of PLL Configuration via HSI and HSE
   ******************************************************************************
   * @attention
-  *     - Write a program to output HSI clock on microcontroller pin and measure it using oscilloscope or logic analyzer
-  *     - 將HSI預設降頻作為練習(1MHz)，表示MCO要除以8
+  *     - Write a program to switch HSE as system clock and measure it
+  *     - 將HSE降頻作為練習(1MHz)，表示MCO要除以8
   */
 
 #include <stdio.h>
 #include <stdint.h>
 
+#define RCC_CR              *(volatile uint32_t*)0x40021000U // Clock control register
 #define RCC_CFGR            *(volatile uint32_t*)0x40021004U // Clock configuration register
 #define RCC_AHBENR          *(volatile uint32_t*)0x40021014U // AHB peripheral clock enable register
 
@@ -22,10 +23,17 @@
 
 int main(void)
 {   
-    RCC_CFGR |= (3 << 28); // Microcontroller Clock Output Prescaler (MCO is divided by 8)
-    RCC_CFGR |= (1 << 24) | (1 << 26); // Microcontroller clock output (HSI clock selected)
-    RCC_AHBENR |= (1 << 17);  // I/O port A clock enabled
+    RCC_CR |= (1 << 18); // HSE crystal oscillator bypass
+    RCC_CFGR   |= (3 << 28);    // Microcontroller Clock Output Prescaler (MCO is divided by 8)
+    RCC_CFGR   |= (1 << 25) | (1 << 26); // Microcontroller clock output (HSE clock selected)
+    RCC_CFGR   |= (1 <<  0);    // System clock switch (HSE selected as system clock)
+    RCC_CR |= (1 << 16);        // HSE clock enable
+    while(!((RCC_CR & 0x20000) >> 17)); // 等待HSE準備完成
 
+    RCC_CR &= ~(1 << 0);        // HSI clock disable
+    while((RCC_CR & 0x2) >> 1); // 等待HSI關閉完成
+
+    RCC_AHBENR   |= (1 << 17);  // I/O port A clock enabled
     GPIOA_MODER  |= (1 << 17);  // PA8 (Alternate function mode)
     GPIOA_OTYOER &= ~(1 << 8);  // Output push-pull (reset state)
     GPIOA_PUPDR  &= ~(3 << 16); // No pull-up, pull-down
