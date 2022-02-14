@@ -88,6 +88,10 @@
 
 - 結果 (將MCO除以8後輸出，即1MHz)
   ![](https://i.imgur.com/BjwlALt.png)
+  
+## Excercise6
+- 目標: HSE measurement
+  - Write a program to switch HSE as system clock and measure it
 
-
-
+- 結果 (將MCO除以8後輸出，即1MHz)
+  ![](https://i.imgur.com/uY4tHXm.png)
