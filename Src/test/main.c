@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "myusart.h"
 
-int main(void) 
+int main(void)
 {
     MYUSART_Init();
     printf("Hello world\n");

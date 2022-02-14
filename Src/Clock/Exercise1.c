@@ -26,19 +26,25 @@ int main(void)
     RCC_CR |= (1 << 16);    // HSE clock enable
     while(!((RCC_CR & 0x20000) >> 17)); // 等待HSE準備完成
     /* step2: Initialize CPU, AHB, APB busses clock prescalers to application requirements */
-    RCC_CFGR |= (4 << 11);  // APB2 high-speed prescaler (HCLK divided by 2)
-    RCC_CFGR |= (4 <<  8);  // APB1 high-speed prescaler (HCLK divided by 2)
-    RCC_CFGR |= (8 <<  4);  // HLCK prescaler (SYSCLK divided by 2)
+    RCC_CFGR |= (1 << 13);  // APB2 high-speed prescaler (HCLK divided by 2)
+    RCC_CFGR |= (1 << 10);  // APB1 high-speed prescaler (HCLK divided by 2)
+    RCC_CFGR |= (1 <<  7);  // HLCK prescaler (SYSCLK divided by 2)
+    
     /* step3: Configure the flash latency */
-    FLASH_ACR |= (0 << 0);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
+    FLASH_ACR &= ~(1 << 0) | ~(1 << 1);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
+    
     /* step4: Select newly enabled clock as SYSCLK */
-    RCC_CFGR |= (1 <<  0);  // System clock switch (HSE selected as system clock)
+    RCC_CFGR  |= (1 <<  0);  // System clock switch (HSE selected as system clock)
+    
     /* step5: Disable other clock */
     RCC_CR &= ~(1 << 0);    //  HSI clock disable
     while((RCC_CR & 0x2) >> 1); // 等待HSI關閉完成
+    
     MYUSART_Init();
     USART3_BRR = APB1_CLK / BAUDRATE_38400; // 重新設定baudrate，覆寫預設結果
-    printf("Hello world\n");
-    while(1);
+    while(1)
+    {
+        printf("Hello world\n");
+    }
     return 0;
 }
