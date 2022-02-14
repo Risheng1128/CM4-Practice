@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "myusart.h"
 
-#define APB1_CLK            2000000U
+#define APB1_CLK            2000000U  // USART 連接到 APB1
 #define RCC_CR              *(volatile uint32_t*)(0x40021000U) // Clock control register
 #define RCC_CFGR            *(volatile uint32_t*)(0x40021004U) // Clock configuration register
 #define FLASH_ACR           *(volatile uint32_t*)(0x40022000U) // Flash access control register
