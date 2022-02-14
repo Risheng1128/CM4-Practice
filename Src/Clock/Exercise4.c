@@ -28,8 +28,7 @@ int main(void)
 {   
     HSE();
     //HSI();
-    while(1)
-    {
+    while(1) {
         printf("Hello world\n");
     }
     return 0;

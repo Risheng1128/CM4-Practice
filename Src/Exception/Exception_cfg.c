@@ -95,7 +95,8 @@ __attribute__ ((naked)) void Example4(void) // Executing SVC inside the SVC hand
 }
 
 void Example5(void) // Executing SVC instruction inside the interrupt handler whose priority whose priority is same or lesser than SVC handler
-{     NVIC_ISER0 |= (1 << I2C1_EV_IRQ_NO);
+{     
+    NVIC_ISER0 |= (1 << I2C1_EV_IRQ_NO);
     NVIC_ISPR0 |= (1 << I2C1_EV_IRQ_NO);
 }
 

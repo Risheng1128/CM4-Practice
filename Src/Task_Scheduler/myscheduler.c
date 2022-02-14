@@ -74,8 +74,7 @@ void Task_Stack_Init(void)
     task_handler[2] = (uint32_t)task3_handler;
     task_handler[3] = (uint32_t)task4_handler;
 
-    for(int i = 0; i < TASK_NUM; i++) 
-    {
+    for(int i = 0; i < TASK_NUM; i++) {
         PSP_ptr = (uint32_t*) *(task_PSP + i);
         *(--PSP_ptr) = DUMMY_XPSR;       // xPSR = 0x01000000
         *(--PSP_ptr) = task_handler[i];  // PC = task_handler的地址
@@ -124,8 +123,7 @@ void update_next_task(void)
 
 void task1_handler(void) 
 {
-    while(1) 
-    {
+    while(1) {
         printf("In task1\n");
     }
 
@@ -133,24 +131,21 @@ void task1_handler(void)
 
 void task2_handler(void) 
 {
-    while(1) 
-    {
+    while(1) {
         printf("In task2\n");
     }
 }
 
 void task3_handler(void) 
 {
-    while(1) 
-    {
+    while(1) {
         printf("In task3\n");
     }
 }
 
 void task4_handler(void) 
 {
-    while(1) 
-    {
+    while(1) {
         printf("In task4\n");
     }
 }

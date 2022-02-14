@@ -23,20 +23,19 @@ void Calculate(uint32_t* MSP_ptr, uint32_t a, uint32_t b)
     uint32_t* RetAddr_ptr = (uint32_t*)*(MSP_ptr + 6); // Return Address
     RetAddr_ptr = (uint32_t*)((uint32_t)RetAddr_ptr - 2); // SVC instruction地址為進入SVC instruction -2 的地址
     // 根據AAPCS，回傳資料時順序為R0,R1
-    switch (*RetAddr_ptr & 0xff) 
-    {
-        case 36:
-            a += b;
-            break;
-        case 37:
-            a -= b;
-            break;
-        case 38:
-            a *= b;
-            break;
-        case 39:
-            a /= b;
-            break;
+    switch (*RetAddr_ptr & 0xff) {
+    case 36:
+        a += b;
+        break;
+    case 37:
+        a -= b;
+        break;
+    case 38:
+        a *= b;
+        break;
+    case 39:
+        a /= b;
+        break;
     }
     *MSP_ptr = a; // 計算結果存到r0(MSP_ptr[0])中
 }

@@ -38,8 +38,7 @@ int main(void)
     // HCLK20M();
     // HCLK40M();
     HCLK60M();
-    while(1)
-    {
+    while(1) {
         printf("Hello world\n");
     }
     return 0;

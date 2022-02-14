@@ -42,8 +42,7 @@ int main(void)
     
     MYUSART_Init();
     USART3_BRR = APB1_CLK / BAUDRATE_38400; // 重新設定baudrate，覆寫預設結果
-    while(1)
-    {
+    while(1) {
         printf("Hello world\n");
     }
     return 0;
