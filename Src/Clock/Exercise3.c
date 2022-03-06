@@ -61,7 +61,7 @@ void HCLK20M(void)
     /* APB1 APB2 AHB 都使用預設 */
     
     /* step3: Configure the flash latency */
-    FLASH_ACR &= ~(1 << 0) | ~(1 << 1);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
+    FLASH_ACR &= ~(1 << 0) & ~(1 << 1);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
     
     /* step4: Select newly enabled clock as SYSCLK */
     RCC_CFGR  |= (1 << 1);  // System clock switch (PLL selected as system clock)
