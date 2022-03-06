@@ -48,7 +48,7 @@ void HCLK20M(void)
 {
     /* step1: Enable required clock and wait until the clock is ready. 
         If application needs PLL, then configure the PLL and enable it */
-    RCC_CFGR &= ~(1 << 15) | ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
+    RCC_CFGR &= ~(1 << 15) & ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
     RCC_CFGR |=  (1 << 18) |  (1 << 19); // PLL multiplication factor (PLL input clock x 5)
     RCC_CR   |= (1 << 24); // PLL enable
     while(!((RCC_CR & 0x02000000) >> 25)); // 等待PLL開啟完成
@@ -57,7 +57,7 @@ void HCLK20M(void)
     /* APB1 APB2 AHB 都使用預設 */
     
     /* step3: Configure the flash latency */
-    FLASH_ACR &= ~(1 << 0) | ~(1 << 1);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
+    FLASH_ACR &= ~(1 << 0) & ~(1 << 1);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
     
     /* step4: Select newly enabled clock as SYSCLK */
     RCC_CFGR  |= (1 << 1);  // System clock switch (PLL selected as system clock)
@@ -71,7 +71,7 @@ void HCLK40M(void)
 {
     /* step1: Enable required clock and wait until the clock is ready. 
         If application needs PLL, then configure the PLL and enable it */
-    RCC_CFGR &= ~(1 << 15) | ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
+    RCC_CFGR &= ~(1 << 15) & ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
     RCC_CFGR |= (1 << 21); // PLL multiplication factor (PLL input clock x 10)
     RCC_CR   |= (1 << 24); // PLL enable
     while(!((RCC_CR & 0x02000000) >> 25)); // 等待PLL開啟完成
@@ -95,7 +95,7 @@ void HCLK60M(void)
 {
     /* step1: Enable required clock and wait until the clock is ready. 
         If application needs PLL, then configure the PLL and enable it */
-    RCC_CFGR &= ~(1 << 15) | ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
+    RCC_CFGR &= ~(1 << 15) & ~(1 << 16); // PLL entry clock source ( HSI/2 used as PREDIV1 entry and PREDIV1 forced to div by 2. )
     RCC_CFGR |=  (1 << 18) |  (1 << 20) |  (1 << 21); // PLL multiplication factor (PLL input clock x 15)
     RCC_CR   |= (1 << 24); // PLL enable
     while(!((RCC_CR & 0x02000000) >> 25)); // 等待PLL開啟完成
