@@ -31,10 +31,10 @@ int main(void)
     RCC_CFGR |= (1 <<  7);  // HLCK prescaler (SYSCLK divided by 2)
     
     /* step3: Configure the flash latency */
-    FLASH_ACR &= ~(1 << 0) | ~(1 << 1);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
+    FLASH_ACR &= ~(1 << 0) & ~(1 << 1);  // Flash Latency (Zero wait state, if 0 < HCLK ≤ 24 MHz)
     
     /* step4: Select newly enabled clock as SYSCLK */
-    RCC_CFGR  |= (1 <<  0);  // System clock switch (HSE selected as system clock)
+    RCC_CFGR  |= (1 << 0);  // System clock switch (HSE selected as system clock)
     
     /* step5: Disable other clock */
     RCC_CR &= ~(1 << 0);    //  HSI clock disable
